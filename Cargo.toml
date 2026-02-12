@@ -4,6 +4,7 @@ members = [
     "graphics/rpp",
     "platform/wnd",
     "graphics/ztglyphs", "core/zintl", "examples/exlib",
+    "runtil"
 ]
 
 [workspace.package]
