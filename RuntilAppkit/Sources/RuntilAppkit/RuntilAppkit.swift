@@ -6,8 +6,8 @@ struct State {
     var loop: CFRunLoop;
 }
 
-class RAppDelegate {
-    
+class RAppDelegate: NSObject, NSApplicationDelegate {
+
 }
 
 @MainActor
