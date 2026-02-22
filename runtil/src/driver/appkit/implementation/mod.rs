@@ -1,7 +1,9 @@
 use std::{
     ffi::c_void,
-    sync::{Arc, RwLock},
+    sync::{Arc, RwLock, atomic::AtomicU32},
 };
+
+use crossbeam::queue::SegQueue;
 
 use super::binding::*;
 use crate::{actor::MainMarker, task::MainTask, window::Window};
@@ -12,8 +14,14 @@ pub enum AppkitEventPumpError {
 
 pub type AppkitEventPumpResult<T> = Result<T, AppkitEventPumpError>;
 
+pub struct CurrentTask {
+    mt: MainTask,
+    count: u32,
+}
+
 pub struct AppkitEventPump {
-    ct: Arc<RwLock<Option<MainTask>>>,
+    queue: SegQueue<MainTask>,
+    ct: Arc<RwLock<Option<CurrentTask>>>,
 }
 
 extern "C" fn callback(ct: *const c_void) {
@@ -33,7 +41,10 @@ impl AppkitEventPump {
         // SAFETY:
         unsafe { runtilappkit_init(ptr as *const c_void, callback) };
 
-        AppkitEventPump { ct }
+        AppkitEventPump {
+            queue: SegQueue::new(),
+            ct,
+        }
     }
 
     pub(crate) fn set_task_and_schedule(&self, task: MainTask) -> AppkitEventPumpResult<()> {
