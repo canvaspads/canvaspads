@@ -55,22 +55,25 @@ pub struct Arena<'a> {
 
 impl<'a> Arena<'a> {
     pub fn new() -> Self {
+        let empty_seq: Sequence<()> = Sequence::new();
         Arena {
-            seqs: vec![],
+            seqs: vec![Box::new(empty_seq)],
             seqid_table: HashMap::new(),
-            next_seqid: 0,
+            next_seqid: 1,
             phantom: std::marker::PhantomData,
         }
     }
 
     pub fn get<R: 'static>(&mut self, sid: StoreId) -> Option<&'a mut R> {
-        if let Some(seq) = self.seqs.get_mut(sid.seq) {
-            if seq.get_type_id() == TypeId::of::<R>() {
-                let seq_fatptr: *mut dyn IntoSequence = &mut **seq;
-                let seq_ptr = seq_fatptr as *mut Sequence<R>;
-                // SAFETY: A pointer isn't possibly going to be null.
-                let seq_ref = unsafe { &mut *seq_ptr };
-                return seq_ref.get(sid.idx);
+        if sid != StoreId::UNINITIALIZED {
+            if let Some(seq) = self.seqs.get_mut(sid.seq) {
+                if seq.get_type_id() == TypeId::of::<R>() {
+                    let seq_fatptr: *mut dyn IntoSequence = &mut **seq;
+                    let seq_ptr = seq_fatptr as *mut Sequence<R>;
+                    // SAFETY: A pointer isn't possibly going to be null.
+                    let seq_ref = unsafe { &mut *seq_ptr };
+                    return seq_ref.get(sid.idx);
+                }
             }
         }
         None
@@ -113,8 +116,12 @@ mod test {
     #[test]
     fn seq_arena() {
         let mut arena = Arena::new();
+        assert_eq!(arena.get::<()>(StoreId::UNINITIALIZED), None);
         let sid_str = arena.insert_new(String::from("string"));
+        assert_eq!(sid_str, StoreId { seq: 1, idx: 0 });
         let sid_int = arena.insert_new(35_i32);
+        assert_eq!(arena.insert_new(12_i32), StoreId { seq: 2, idx: 1 });
+        assert_eq!(sid_int, StoreId { seq: 2, idx: 0 });
         let item = arena.get::<String>(sid_str).unwrap();
         assert_eq!(*item, String::from("string"));
         assert_eq!(arena.get::<String>(sid_int), None);
