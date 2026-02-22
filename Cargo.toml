@@ -1,11 +1,11 @@
 [workspace]
 resolver = "3"
 members = [
-    "graphics/rpp",
-    "platform/wnd",
     "core/zintl",
+    "platform/wnd",
+    "platform/runtil",
+    "graphics/rpp",
     "examples/exlib",
-    "runtil"
 ]
 
 [workspace.package]
