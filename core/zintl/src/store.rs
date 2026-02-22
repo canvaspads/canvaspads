@@ -2,8 +2,8 @@ use std::{any::TypeId, marker::PhantomData};
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct StoreId {
-    seq: u32,
-    idx: usize,
+    pub(crate) seq: usize,
+    pub(crate) idx: usize,
 }
 
 impl StoreId {
