@@ -1,9 +1,0 @@
-[package]
-name = "ztglyphs"
-edition = "2024"
-license.workspace = true
-description.workspace = true
-authors.workspace = true
-version.workspace = true
-
-[dependencies]

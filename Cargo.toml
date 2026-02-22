@@ -3,7 +3,8 @@ resolver = "3"
 members = [
     "graphics/rpp",
     "platform/wnd",
-    "graphics/ztglyphs", "core/zintl", "examples/exlib",
+    "core/zintl",
+    "examples/exlib",
     "runtil"
 ]
 
