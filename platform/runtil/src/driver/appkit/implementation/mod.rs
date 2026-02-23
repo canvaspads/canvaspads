@@ -1,6 +1,6 @@
 use std::{
     ffi::c_void,
-    sync::{Arc, RwLock, atomic::AtomicU32},
+    sync::{Arc, RwLock},
 };
 
 use crossbeam::queue::SegQueue;
@@ -14,47 +14,43 @@ pub enum AppkitEventPumpError {
 
 pub type AppkitEventPumpResult<T> = Result<T, AppkitEventPumpError>;
 
-pub struct CurrentTask {
-    mt: MainTask,
-    count: u32,
+pub struct QueueSource {
+    queue: SegQueue<MainTask>,
+}
+
+impl QueueSource {
+    fn new() -> Arc<Self> {
+        Arc::new(QueueSource {
+            queue: SegQueue::new(),
+        })
+    }
 }
 
 pub struct AppkitEventPump {
-    queue: SegQueue<MainTask>,
-    ct: Arc<RwLock<Option<CurrentTask>>>,
+    source: Arc<QueueSource>,
 }
 
-extern "C" fn callback(ct: *const c_void) {
+extern "C" fn callback(s_ptr: *const c_void) {
     // SAFETY: ct is null checked
-    let optask = unsafe { Arc::from_raw(ct as *const RwLock<Option<MainTask>>) };
-    if let Ok(mut optask) = optask.write() {
-        if let Some(task) = (*optask).take() {
-            (task.f)(MainMarker::new());
-        }
-    } //TODO: Error handling
+    let source = unsafe { Arc::from_raw(s_ptr as *mut QueueSource) };
+    if let Some(task) = source.queue.pop() {
+        (task.f)(MainMarker::new());
+    }
 }
 
 impl AppkitEventPump {
     pub fn new() -> Self {
-        let ct: Arc<RwLock<Option<MainTask>>> = Arc::new(None.into());
-        let ptr = Arc::into_raw(ct.clone());
+        let source = QueueSource::new();
+        let ptr = Arc::into_raw(source.clone());
         // SAFETY:
         unsafe { runtilappkit_init(ptr as *const c_void, callback) };
 
-        AppkitEventPump {
-            queue: SegQueue::new(),
-            ct,
-        }
+        AppkitEventPump { source }
     }
 
     pub(crate) fn set_task_and_schedule(&self, task: MainTask) -> AppkitEventPumpResult<()> {
         {
-            let mut ct = match self.ct.write() {
-                Ok(ct) => ct,
-                Err(..) => return Err(AppkitEventPumpError::LockError),
-            };
-
-            *ct = Some(task);
+            self.source.queue.push(task);
         }
 
         // SAFETY+ TODO

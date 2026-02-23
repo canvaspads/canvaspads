@@ -25,7 +25,9 @@ fn main() {
             panic!("runtil: Failed to build XCode project");
         }
 
-        println!("cargo:rustc-link-search=RuntilAppkit/.build/arm64-apple-macosx/release/");
+        println!(
+            "cargo:rustc-link-search=platform/RuntilAppkit/.build/arm64-apple-macosx/release/"
+        );
         println!(
             "cargo:rustc-link-search={}/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx",
             &path

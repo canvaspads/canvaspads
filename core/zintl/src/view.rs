@@ -1,8 +1,8 @@
 pub struct Context {}
 
 pub trait View {
-    type RenderNode;
+    type Output;
 
     fn init(&mut self, cx: &mut Context);
-    fn render(&self, cx: &mut Context) -> Self::RenderNode;
+    fn render(&self, cx: &mut Context) -> Self::Output;
 }
