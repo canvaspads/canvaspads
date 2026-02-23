@@ -1,5 +1,5 @@
 pub trait Component {
-    type RenderNode;
+    type Output;
 
-    fn render(&self) -> Self::RenderNode;
+    fn render(&self) -> Self::Output;
 }
