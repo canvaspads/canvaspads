@@ -1,5 +1,5 @@
 [package]
-name = "exlib"
+name = "zintl-desktop"
 edition = "2024"
 license.workspace = true
 description.workspace = true

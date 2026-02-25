@@ -2,19 +2,19 @@ pub mod components;
 pub mod event;
 pub mod hooks;
 pub mod render;
-pub mod view;
 
-use crate::view::View;
+use crate::render::RenderNode;
 use zintl::sequence::Arena;
+use zintl::view::View;
 
-pub struct ExApp<'a> {
+pub struct App<'a> {
     arena: Arena<'a>,
-    root: Box<dyn View>,
+    root: Box<dyn View<Output = RenderNode>>,
 }
 
-impl<'a> ExApp<'a> {
-    pub fn new(root: impl View) -> Self {
-        ExApp {
+impl<'a> App<'a> {
+    pub fn new(root: impl View<Output = RenderNode> + 'static) -> Self {
+        App {
             arena: Arena::new(),
             root: Box::new(root),
         }

@@ -213,13 +213,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
-name = "exlib"
-version = "0.0.1-alpha.2"
-dependencies = [
- "zintl",
-]
-
-[[package]]
 name = "foldhash"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1334,3 +1327,10 @@ checksum = "a62ce76d9b56901b19a74f19431b0d8b3bc7ca4ad685a746dfd78ca8f4fc6bda"
 [[package]]
 name = "zintl"
 version = "0.0.1-alpha.2"
+
+[[package]]
+name = "zintl-desktop"
+version = "0.0.1-alpha.2"
+dependencies = [
+ "zintl",
+]
