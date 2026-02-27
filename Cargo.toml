@@ -6,6 +6,7 @@ members = [
     "platform/wnd",
     "platform/runtil",
     "graphics/ulexite",
+    "graphics/ulexite-winit",
 ]
 
 [workspace.package]
