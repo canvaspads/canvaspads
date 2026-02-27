@@ -9,7 +9,7 @@ members = [
 
 [workspace.package]
 license = "Apache-2.0"
-description = "Powerful yet simple GUI toolkit for Rust."
+description = "A graphic design toolkit for making creative artwork and professional designs."
 authors = ["Hasegawa, Raku <raku@exhibition.jp>"]
 version = "0.0.1-alpha.2"
 
