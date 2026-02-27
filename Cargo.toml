@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
 members = [
-    "core/zintl",
+    "ui/zintl",
     "platform/wnd",
     "platform/runtil",
     "graphics/rpp",
