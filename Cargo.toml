@@ -5,7 +5,6 @@ members = [
     "platform/wnd",
     "platform/runtil",
     "graphics/rpp",
-    "desktop/zintl-desktop",
 ]
 
 [workspace.package]
