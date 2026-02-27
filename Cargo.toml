@@ -2,9 +2,10 @@
 resolver = "3"
 members = [
     "ui/zintl",
+    "ui/zintl-desktop",
     "platform/wnd",
     "platform/runtil",
-    "graphics/rpp", "ui/zintl-desktop",
+    "graphics/ulexite",
 ]
 
 [workspace.package]
