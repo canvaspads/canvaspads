@@ -7,3 +7,4 @@ authors.workspace = true
 version.workspace = true
 
 [dependencies]
+winit = "0.30"
