@@ -1,0 +1,1 @@
+pub const Device = struct {};

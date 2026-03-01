@@ -1,0 +1,14 @@
+.{
+    .name = .mrhi,
+    .version = "0.0.0",
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{},
+    .fingerprint = 0x263774af99d90c59,
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}
