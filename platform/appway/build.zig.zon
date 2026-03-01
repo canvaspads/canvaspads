@@ -1,0 +1,14 @@
+.{
+    .name = .appway,
+    .version = "0.0.0",
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{},
+    .fingerprint = 0xe406d0a4c8789f5c,
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}
