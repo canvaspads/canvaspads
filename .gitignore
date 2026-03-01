@@ -1,2 +1,4 @@
 target
 debug
+.zig-cache
+zig-out
