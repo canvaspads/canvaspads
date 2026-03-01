@@ -5,8 +5,8 @@ members = [
     "ui/zintl-desktop",
     "platform/wnd",
     "platform/runtil",
-    "graphics/ulexite",
-    "graphics/ulexite-winit",
+    "graphics/gpu/ulexite",
+    "graphics/gpu/ulexite-winit",
 ]
 
 [workspace.package]
