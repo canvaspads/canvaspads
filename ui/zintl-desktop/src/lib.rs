@@ -1,5 +1,5 @@
 use zintl::composer::Composer;
-pub use zintl::element::{Element, IntoElement};
+pub use zintl::element::{Element, ElementContext, IntoElement};
 pub use zintl::view::{Context, View};
 
 #[derive(Clone, Debug)]
@@ -10,7 +10,7 @@ pub enum RenderNode {
 impl IntoElement for RenderNode {
     type Output = RenderNode;
 
-    fn into_element(&self, _cx: &mut Context<RenderNode>) -> Element<RenderNode> {
+    fn into_element(&self, _cx: &mut ElementContext<RenderNode>) -> Element<RenderNode> {
         Element {
             inner: (*self).clone(),
             dependencies: vec![],

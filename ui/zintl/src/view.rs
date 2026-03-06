@@ -1,4 +1,4 @@
-use crate::element::{Element, IntoElement};
+use crate::element::{Element, ElementContext, IntoElement};
 
 pub struct Context<R> {
     phantom: std::marker::PhantomData<R>,
@@ -27,7 +27,7 @@ pub trait View {
 impl<R, T: View<Output = R>> IntoElement for T {
     type Output = R;
 
-    fn into_element(&self, cx: &mut Context<R>) -> Element<R> {
-        self.render(&mut cx.child()).into_element(&mut cx.child())
+    fn into_element(&self, cx: &mut ElementContext<R>) -> Element<R> {
+        self.render(&mut cx.view_cx()).into_element(cx)
     }
 }
