@@ -1,5 +1,5 @@
 use crate::hook::HookId;
-use crate::view::{Context, View};
+use crate::view::Context;
 
 pub struct ElementContext<R> {
     phantom: std::marker::PhantomData<R>,

@@ -1,4 +1,3 @@
-use crate::element::ElementContext;
 use crate::view::{Context, View};
 
 pub struct Composer<R, V>
