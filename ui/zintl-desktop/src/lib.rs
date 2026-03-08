@@ -1,6 +1,5 @@
 use zintl::composer::Composer;
 pub use zintl::element::{Element, ElementContext, IntoElement};
-pub use zintl::elm;
 pub use zintl::view::{Context, View};
 
 #[derive(Clone, Debug)]

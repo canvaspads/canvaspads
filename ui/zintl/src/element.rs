@@ -24,9 +24,6 @@ pub trait IntoElement {
 }
 
 pub enum Element<R> {
-    Packed {
-        inner: Vec<Box<dyn IntoElement<Output = R>>>,
-    },
     Binded {
         inner: Box<Element<R>>,
         dependencies: Vec<HookId>,
