@@ -15,10 +15,6 @@ impl<R> Context<R> {
     pub fn get_dependencies(&self) -> Vec<HookId> {
         todo!()
     }
-
-    pub fn child(&mut self) -> Self {
-        Self::new()
-    }
 }
 
 pub trait View {
