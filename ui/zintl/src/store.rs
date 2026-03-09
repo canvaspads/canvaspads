@@ -1,3 +1,5 @@
+use crate::hook::{Hook, HookId};
+
 use std::{any::TypeId, marker::PhantomData};
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -12,13 +14,21 @@ impl StoreId {
 
 pub struct Store<T: 'static> {
     id: StoreId,
+    hook_id: HookId,
     phantom: PhantomData<T>,
+}
+
+impl<T: 'static> Hook for Store<T> {
+    fn get_id(&self) -> HookId {
+        self.hook_id
+    }
 }
 
 impl<T: 'static> Store<T> {
     pub fn new() -> Self {
         Store {
             id: StoreId::UNINITIALIZED,
+            hook_id: HookId::DEFAULT,
             phantom: PhantomData,
         }
     }
