@@ -23,7 +23,7 @@ impl<T: 'static> Sequence<T> {
             Some(b) => b,
             None => return None,
         };
-        // SAFETY: A type of the input value is checked.
+        // SAFETY: A type of the input value is validated.
         let r = unsafe { &mut *(t.get()) };
         Some(r)
     }
