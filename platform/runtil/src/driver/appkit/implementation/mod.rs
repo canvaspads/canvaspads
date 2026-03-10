@@ -26,7 +26,7 @@ impl QueueSource {
     }
 }
 
-#[derive(Clone, Default, Debug)]
+#[derive(Default)]
 struct CallbackUserData {
     on_init: Option<Box<dyn FnOnce() -> ()>>,
     will_deinit: Option<Box<dyn FnOnce() -> ()>>,
