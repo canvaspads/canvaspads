@@ -26,18 +26,6 @@ impl QueueSource {
     }
 }
 
-#[derive(Default)]
-struct CallbackUserData {
-    on_init: Option<Box<dyn FnOnce() -> ()>>,
-    will_deinit: Option<Box<dyn FnOnce() -> ()>>,
-}
-
-impl CallbackUserData {
-    pub fn new() -> Arc<Self> {
-        Arc::new(CallbackUserData::default())
-    }
-}
-
 pub struct AppkitEventPump {
     source: Arc<QueueSource>,
 }
@@ -57,8 +45,6 @@ impl AppkitEventPump {
     pub fn new() -> Self {
         let source = QueueSource::new();
         let p_source_ud = Arc::into_raw(source.clone());
-        let cbs_ud = CallbackUserData::new();
-        let p_cbs_ud = Arc::into_raw(cbs_ud.clone());
         let cbs = AppCbs {
             on_init: cb_app_on_init,
             will_deinit: cb_app_will_deinit,
