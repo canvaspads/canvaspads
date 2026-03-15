@@ -7,6 +7,7 @@ members = [
     "platform/runtil",
     "graphics/gpu/ulexite",
     "graphics/gpu/ulexite-winit",
+    "nexus/nxc",
 ]
 
 [workspace.package]

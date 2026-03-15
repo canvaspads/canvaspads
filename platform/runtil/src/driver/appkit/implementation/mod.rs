@@ -14,7 +14,7 @@ pub enum AppkitEventPumpError {
 
 pub type AppkitEventPumpResult<T> = Result<T, AppkitEventPumpError>;
 
-pub struct QueueSource {
+struct QueueSource {
     queue: SegQueue<MainTask>,
 }
 
@@ -44,13 +44,13 @@ extern "C" fn cb_app_will_deinit(_p_ud: *const c_void) {}
 impl AppkitEventPump {
     pub fn new() -> Self {
         let source = QueueSource::new();
-        let ptr = Arc::into_raw(source.clone());
+        let p_source_ud = Arc::into_raw(source.clone());
         let cbs = AppCbs {
             on_init: cb_app_on_init,
             will_deinit: cb_app_will_deinit,
         };
         // SAFETY:
-        unsafe { runtilappkit_init(ptr as *const c_void, callback, cbs) };
+        unsafe { runtilappkit_init(p_source_ud as *const c_void, callback, cbs) };
 
         AppkitEventPump { source }
     }
