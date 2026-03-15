@@ -2,3 +2,4 @@ target
 debug
 .zig-cache
 zig-out
+zig-pkg
