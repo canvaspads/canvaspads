@@ -1,5 +1,6 @@
 use zintl_desktop::*;
 
+#[derive(Copy, Clone)]
 pub struct MainView {}
 
 impl View for MainView {

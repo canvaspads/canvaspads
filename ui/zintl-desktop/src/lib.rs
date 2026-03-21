@@ -7,16 +7,6 @@ pub enum RenderNode {
     Text(String),
 }
 
-impl IntoElement for RenderNode {
-    type Output = RenderNode;
-
-    fn into_element(&self, _cx: &mut ElementContext<RenderNode>) -> Element<RenderNode> {
-        Element::Normal {
-            inner: (*self).clone(),
-        }
-    }
-}
-
 pub struct Text {
     content: String,
 }
@@ -27,26 +17,26 @@ impl Text {
     }
 }
 
-impl View for Text {
+impl IntoElement for Text {
     type Output = RenderNode;
 
-    fn render(&self, _cx: &mut Context<RenderNode>) -> impl IntoElement<Output = RenderNode> {
-        RenderNode::Text(self.content.clone())
+    fn into_element(&self, _cx: &mut ElementContext<Self::Output>) -> Element<Self::Output> {
+        Element::Normal(RenderNode::Text(self.content.clone()))
     }
 }
 
-pub struct App<V>
+pub struct App<E>
 where
-    V: View<Output = RenderNode> + 'static,
+    E: IntoElement<Output = RenderNode> + 'static,
 {
-    composer: Composer<RenderNode, V>,
+    composer: Composer<RenderNode, E>,
 }
 
-impl<V> App<V>
+impl<E> App<E>
 where
-    V: View<Output = RenderNode> + 'static,
+    E: IntoElement<Output = RenderNode> + 'static,
 {
-    pub fn new(root: V) -> Self {
+    pub fn new(root: E) -> Self {
         App {
             composer: Composer::new(root),
         }

@@ -34,9 +34,7 @@ pub enum Element<R> {
         dependencies: Vec<HookId>,
         builder: Box<dyn IntoElement<Output = R>>,
     },
-    Normal {
-        inner: R,
-    },
+    Normal(R),
     List {
         inner: Vec<Element<R>>,
     },

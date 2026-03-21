@@ -1,26 +1,27 @@
+use crate::element::{Element, ElementContext, IntoElement};
 use crate::view::{Context, View};
 
-pub struct Composer<R, V>
+pub struct Composer<R, E>
 where
-    V: View<Output = R>,
+    E: IntoElement<Output = R>,
 {
-    root: V,
+    root: E,
 }
 
-impl<R, V> Composer<R, V>
+impl<R, E> Composer<R, E>
 where
-    V: View<Output = R>,
+    E: IntoElement<Output = R>,
 {
-    pub fn new(root: V) -> Self {
+    pub fn new(root: E) -> Self {
         Composer { root }
     }
 
     pub fn render(&self) -> Option<R> {
-        let mut context = Context::new();
-        let a = self.root.render(&mut context);
+        let mut context = ElementContext::new();
+        let a = self.root.into_element(&mut context);
         match a {
-            _ => {}
-        };
-        None
+            Element::Normal(r) => Some(r),
+            _ => None,
+        }
     }
 }
